@@ -22,12 +22,15 @@ public class LoginServlet extends HttpServlet {
 			throws ServletException, IOException {
 		final String userName = request.getParameter("inputEmail").trim();
 		final String password = request.getParameter("inputPassword").trim();
-		
+
 		LoginValidator loginValidator = new LoginValidator();
 		boolean isValidUser = loginValidator.validateUser(userName, password);
-		
+
 		if (isValidUser == false) {
 			request.setAttribute("message", "Invalid username/password");
+			request.getRequestDispatcher("/login.jsp").forward(request, response);
 		}
+
+		request.getRequestDispatcher("/searchPage.jsp").forward(request, response);
 	}
 }

@@ -27,12 +27,15 @@
 					<div class="panel-body">
 						<form class="form-horizontal" role="form" method="POST"
 							action="LoginServlet">
-							<c:if test="${not empty message}">
-								<div class="alert alert-success">
-									<strong>Invalid Username/Password</strong>
-								</div>
-							</c:if>
-
+							<%
+								if (null != request.getAttribute("message")) {
+							%>
+							<div class="alert alert-danger">
+								<strong>Invalid Username/Password</strong>
+							</div>
+							<%
+								}
+							%>
 							<div class="form-group">
 								<label for="inputEmail" class="col-sm-3 control-label">
 									Email</label>
