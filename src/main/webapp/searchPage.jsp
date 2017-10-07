@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <%@page import="com.bookbank.model.MemberTransactions"%>
+<%@page import="com.bookbank.model.BookInfo"%>
 <%@page import="java.util.List"%>
 <html>
 <head>
@@ -16,16 +17,9 @@ html, body {
 	align-items: center;
 }
 </style>
+<!-- Custom styles for this template -->
 <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <script>
-	function openNav() {
-		document.getElementById("mySidenav").style.width = "250px";
-	}
-
-	function closeNav() {
-		document.getElementById("mySidenav").style.width = "0";
-	}
-
 	$(document).ready(function(e) {
 		$('.search-panel .dropdown-menu').find('a').click(function(e) {
 			e.preventDefault();
@@ -39,17 +33,24 @@ html, body {
 <%@ page import="com.bookbank.model.MemberInfo"%>
 </head>
 <body>
-	<div class="container">
-		<!-- 
-		<div id="mySidenav" class="sidenav">
-			<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-			<a href="#">About</a> <a href="#">Services</a> <a href="#">Clients</a>
-			<a href="#">Contact</a>
+	<!-- Navigation -->
+	<nav class="navbar navbar-inverse bg-primary">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#">Students Book Bank</a>
+			</div>
+			<ul class="nav navbar-nav navbar-right">
+				<li class="active"><a href="#">Search</a></li>
+				<li><a href="returns.jsp">Returns</a></li>
+				<li><a href="bookentry.jsp">Book Entry</a></li>
+				<li><a href="orderbooks.jsp">Order Books</a></li>
+			</ul>
 		</div>
-		<span style="font-size: 30px; cursor: pointer" onclick="openNav()" />&#9776;
-		-->
+	</nav>
+	<div class="container">
 		<form class="form-horizontal" role="form" method="POST"
 			action="SearchServlet">
+
 			<div class="row">
 				<div class="col-xs-8 col-xs-offset-2">
 					<div class="input-group">
@@ -78,6 +79,7 @@ html, body {
 			</div>
 			<div class="col-xs-12" style="height: 50px;"></div>
 
+			<!-- Member Info -->
 			<%
 				MemberInfo memberInfo = (MemberInfo) request.getAttribute("memberInfo");
 
@@ -105,6 +107,48 @@ html, body {
 					<td><%=transaction.getDueDate()%></td>
 				</tr>
 
+				<%
+					}
+				%>
+
+			</table>
+			<%
+				}
+			%>
+
+			<!-- Book Information -->
+			<%
+				List<BookInfo> availableBooks = (List<BookInfo>) request.getAttribute("bookInfo");
+
+				if (availableBooks != null) {
+			%>
+			<table id="example" class="table table-striped table-bordered"
+				cellspacing="0" width="100%">
+				<thead>
+					<tr>
+						<th>Book ID</th>
+						<th>Title</th>
+						<th>Author</th>
+						<th>Edition</th>
+						<th>Publication</th>
+						<th>Price</th>
+						<th>Purchased Date</th>
+						<th>Reference Book</th>
+					</tr>
+				</thead>
+				<%
+					for (BookInfo bookInfo : availableBooks) {
+				%>
+				<tr>
+					<td><%=bookInfo.getBookNbr()%></td>
+					<td><%=bookInfo.getTitle()%></td>
+					<td><%=bookInfo.getAuthor()%></td>
+					<td><%=bookInfo.getEdition()%></td>
+					<td><%=bookInfo.getPublication()%></td>
+					<td><%=bookInfo.getPrice()%></td>
+					<td><%=bookInfo.getPurchaseDate()%></td>
+					<td><%=bookInfo.isReference()%></td>
+				</tr>
 				<%
 					}
 				%>
