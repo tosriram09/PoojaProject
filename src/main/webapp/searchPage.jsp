@@ -2,6 +2,7 @@
 <%@page import="com.bookbank.model.MemberTransactions"%>
 <%@page import="com.bookbank.model.BookInfo"%>
 <%@page import="java.util.List"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <html>
 <head>
 <script src="bootstrap/js/jquery-3.2.1.min.js"></script>

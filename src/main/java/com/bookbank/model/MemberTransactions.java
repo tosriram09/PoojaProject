@@ -11,6 +11,8 @@ public class MemberTransactions {
 	private String bookId;
 	private String bookName;
 	private String dueDate;
+	private long dueByDays;
+	private double fineAmount;
 
 	public int getTransactionId() {
 		return transactionId;
@@ -42,6 +44,24 @@ public class MemberTransactions {
 
 	public void setDueDate(String dueDate) {
 		this.dueDate = dueDate;
+	}
+
+
+
+	public double getFineAmount() {
+		return fineAmount;
+	}
+
+	public void setFineAmount(double fineAmount) {
+		this.fineAmount = fineAmount;
+	}
+
+	public long getDueByDays() {
+		return dueByDays;
+	}
+
+	public void setDueByDays(long dueByDays) {
+		this.dueByDays = dueByDays;
 	}
 
 }
