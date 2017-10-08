@@ -33,7 +33,7 @@ public class AddBooksServlet extends HttpServlet {
 		BookInfo bookInfo = new BookInfo();
 		bookInfo.setTitle(bookName);
 		BookDetails bookDetails = new BookDetails();
-		bookDetails.addBooks(bookInfo);
+		bookDetails.addBo	oks(bookInfo);
 		request.setAttribute("message", "Book Added Successfully");
 		request.getRequestDispatcher("/bookentry.jsp").forward(request, response);
 	}
