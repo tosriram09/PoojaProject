@@ -82,4 +82,30 @@ public class BookDetails {
 		return bookDetails;
 
 	}
+
+	public void addBooks(BookInfo bookInfo) {
+		final String sqlQuery = "INSERT INTO book VALUES(?, ?, ?,?, ?, ?, ?, ?, ?)";
+
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/bookbank", "pooja", "pooja");
+
+			PreparedStatement stmt = conn.prepareStatement(sqlQuery);
+			stmt.setInt(1, bookInfo.getBookNbr());
+			stmt.setString(2,  bookInfo.getAuthor());
+			stmt.setString(3,  bookInfo.getTitle());
+			stmt.setString(4,  bookInfo.getEdition());
+			stmt.setString(5,  bookInfo.getPublication());
+			stmt.setDouble(6,  bookInfo.getPrice());
+			stmt.setString(7,  bookInfo.getPurchaseDate());
+			stmt.setString(8,  bookInfo.isReference());
+			stmt.setString(9,  "Y");
+			
+			stmt.executeUpdate();
+			stmt.close();
+			conn.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }

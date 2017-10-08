@@ -9,28 +9,45 @@
 <script src="bootstrap/js/jquery-3.2.1.min.js"></script>
 </head>
 <body>
-	<div class="form-group">
-		<label class="col-lg-3 control-label ">City & County:</label>
-		<div class="col-lg-9">
-			<div class="form-inline">
-				<div class="form-group ">
-					<div class="col-lg-12">
-						<label class="sr-only" for="city">City</label> <input type="text"
-							id="city" name="city" class="form-control "
-							placeholder="E.g. Manchester">
-					</div>
-				</div>
-				<div class="form-group ">
-					<div class="col-lg-12">
-						<label class="sr-only" for="county">County</label> <input
-							type="text" id="county" name="county" class="form-control "
-							placeholder="E.g. Lancashire">
-					</div>
+	<!-- Navigation -->
+	<nav class="navbar navbar-inverse bg-primary">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<a class="navbar-brand" href="#">Students Book Bank</a>
+		</div>
+		<ul class="nav navbar-nav navbar-right">
+			<li><a href="searchPage.jsp">Search</a></li>
+			<li class="active"><a href="returns.jsp">Returns</a></li>
+			<li><a href="bookentry.jsp">Book Entry</a></li>
+			<li><a href="orderbooks.jsp">Order Books</a></li>
+		</ul>
+	</div>
+	</nav>
+
+	<div class="container">
+		<h2>Add new books</h2>
+		<form class="form-horizontal" id="returnform" role="form"
+			method="POST" action="AddBooksServlet">
+			<%
+				String message = (String) request.getAttribute("message");
+
+				if (message != null) {
+			%>
+			<div class="col-sm-6 col-sm-offset-3 alert alert-info"><%=request.getAttribute("message")%></div>
+			<%
+				}
+			%>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Book Name</label>
+				<div class="col-sm-10">
+					<input class="form-control" id="bookname" type="text"
+						value="Book Name">
 				</div>
 			</div>
-		</div>
+			<button class="btn btn-primary btn-sm" type="submit">Add
+				a book</button>
+		</form>
 	</div>
 	<script src="bootstrap/js/bootstrap.min.js"></script>
-
 </body>
 </html>
