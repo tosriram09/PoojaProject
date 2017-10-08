@@ -12,6 +12,37 @@
 <link href="css/returns.css" rel="stylesheet">
 <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <script src="bootstrap/js/jquery-3.2.1.min.js"></script>
+<script>
+	function submit1() {
+		var checkboxes = document.getElementsByName('transaction');
+		var selectedTransactions = "";
+		var totalFineAmount = 0.0;
+
+		for (var i = 0, n = checkboxes.length; i < n; i++) {
+			if (checkboxes[i].checked) {
+				var checkboxValue = checkboxes[i].value;
+				selectedTransactions += "," + checkboxValue;
+				var fields = checkboxValue.split(/-/);
+				totalFineAmount = totalFineAmount + parseInt(fields[3]);
+			}
+		}
+
+		if (totalFineAmount > 0) {
+			var retVal = confirm("Pls.collect a fine of Rs." + totalFineAmount
+					+ ". Click Ok to Proceed.");
+
+			if (retVal == true) {
+				document.getElementById("booksreturned").value = selectedTransactions;
+				document.getElementById("useraction").value = "return";
+				document.getElementById("returnform").action = "ReturnsServlet";
+				document.getElementById("returnform").submit();
+			} else {
+				return false;
+			}
+		}
+		return true;
+	}
+</script>
 <title>Manage Book Returns</title>
 <style>
 #imaginary_container {
@@ -33,6 +64,7 @@
 	background: transparent;
 }
 </style>
+
 </head>
 <body>
 	<!-- Navigation -->
@@ -42,7 +74,7 @@
 			<a class="navbar-brand" href="#">Students Book Bank</a>
 		</div>
 		<ul class="nav navbar-nav navbar-right">
-			<li><a href="#">Search</a></li>
+			<li><a href="searchPage.jsp">Search</a></li>
 			<li class="active"><a href="returns.jsp">Returns</a></li>
 			<li><a href="bookentry.jsp">Book Entry</a></li>
 			<li><a href="orderbooks.jsp">Order Books</a></li>
@@ -51,7 +83,7 @@
 	</nav>
 
 	<div class="container col-lg-12 spacer"></div>
-	<form class="form-horizontal" role="form" method="POST"
+	<form class="form-horizontal" id="returnform" role="form" method="POST"
 		action="ReturnsServlet">
 		<div class="container">
 			<div class="row">
@@ -59,8 +91,8 @@
 					<div id="imaginary_container">
 						<div class="input-group stylish-input-group">
 							<input type="text" class="form-control"
-								placeholder="Search Member" name="memberid"> <span
-								class="input-group-addon">
+								placeholder="Search for Member Transactions" name="memberid">
+							<span class="input-group-addon">
 								<button type="submit">
 									<span class="glyphicon glyphicon-search"></span>
 								</button>
@@ -70,12 +102,35 @@
 				</div>
 				<div class="col-xs-12" style="height: 50px;"></div>
 
+				<%
+					String message = (String) request.getAttribute("message");
+
+					if (null != message) {
+				%>
+				<div class="col-sm-6 col-sm-offset-3 alert alert-info"><%=request.getAttribute("message")%></div>
+				<%
+					}
+				%>
+
+
 				<!-- Member Info -->
 				<%
 					MemberInfo memberInfo = (MemberInfo) request.getAttribute("memberInfo");
-
+					List<MemberTransactions> transactions = null;
+					int memberId = 0;
 					if (memberInfo != null) {
+						transactions = memberInfo.getMemberTransactions();
+
+						if (transactions != null && transactions.size() == 0) {
 				%>
+
+				<div class="col-sm-6 col-sm-offset-3 alert alert-info">No
+					transaction details found for the member</div>
+				<%
+					} else {
+				%>
+				<input type="hidden" value="<%=memberInfo.getTotalFineAmount()%>"
+					id="totalfineamount" name="totalfineamount" />
 				<table id="example" class="table table-striped table-bordered"
 					cellspacing="0" width="100%">
 					<thead>
@@ -90,12 +145,14 @@
 						</tr>
 					</thead>
 					<%
-						List<MemberTransactions> transactions = memberInfo.getMemberTransactions();
 						for (MemberTransactions transaction : transactions) {
+									memberId = memberInfo.getMemberId();
 					%>
 					<tr>
 						<td><input class="form-check-input" type="checkbox"
-							value="<%=transaction.getTransactionId()%>" /></td>
+							name="transaction"
+							value="<%=transaction.getTransactionId() + "-" + transaction.getBookId() + "-"
+								+ memberInfo.getMemberId() + "-" + transaction.getFineAmount()%>" /></td>
 						<td><%=transaction.getTransactionId()%></td>
 						<td><%=transaction.getBookId()%></td>
 						<td><%=transaction.getBookName()%></td>
@@ -109,15 +166,20 @@
 				</table>
 				<%
 					}
-					if (transactions.size() > 0) {
+					}
+					if (transactions != null && transactions.size() > 0) {
 				%>
-				<button type="button" class="btn btn-secondary btn-sm">Small
-					button</button>
+				<button type="button" class="btn btn-primary btn-sm"
+					onclick="submit1();">Return</button>
 				<%
-				}
+					}
 				%>
 			</div>
 		</div>
+		<input type="hidden" id="useraction" name="useraction" value="search" />
+		<input type="hidden" id="booksreturned" name="booksreturned" value="" />
+		<input type="hidden" id="memberid1" name="memberid1"
+			value="<%=memberId%>" />
 	</form>
 	<script src="bootstrap/js/bootstrap.min.js"></script>
 </body>

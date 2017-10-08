@@ -13,7 +13,7 @@
 <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <!-- Custom styles for this template -->
 <link href="css/login.css" rel="stylesheet">
-
+<script src="bootstrap/js/jquery-3.2.1.min.js"></script>
 <title>Book Bank</title>
 </head>
 <body>

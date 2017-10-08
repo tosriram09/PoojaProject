@@ -1,12 +1,7 @@
 package com.bookbank.model;
 
 public class MemberTransactions {
-	@Override
-	public String toString() {
-		return "MemberTransactions [transactionId=" + transactionId + ", bookId=" + bookId + ", bookName=" + bookName
-				+ ", dueDate=" + dueDate + "]";
-	}
-
+	private int memberId;
 	private int transactionId;
 	private String bookId;
 	private String bookName;
@@ -46,8 +41,6 @@ public class MemberTransactions {
 		this.dueDate = dueDate;
 	}
 
-
-
 	public double getFineAmount() {
 		return fineAmount;
 	}
@@ -62,6 +55,21 @@ public class MemberTransactions {
 
 	public void setDueByDays(long dueByDays) {
 		this.dueByDays = dueByDays;
+	}
+
+	public int getMemberId() {
+		return memberId;
+	}
+
+	public void setMemberId(int memberId) {
+		this.memberId = memberId;
+	}
+
+	@Override
+	public String toString() {
+		return "MemberTransactions [memberId=" + memberId + ", transactionId=" + transactionId + ", bookId=" + bookId
+				+ ", bookName=" + bookName + ", dueDate=" + dueDate + ", dueByDays=" + dueByDays + ", fineAmount="
+				+ fineAmount + "]";
 	}
 
 }

@@ -27,8 +27,10 @@ public class MemberDetails {
 			String userName = null;
 			while (rs.next()) {
 				if (null == userName) {
-					memberInfo.setUserName(rs.getString("firstname"));
+					memberInfo.setUserName(rs.getString("firstname") + " " + rs.getString("last"));
+					memberInfo.setMemberId(rs.getInt("userid"));
 				}
+				System.out.println("Userid -> " + memberInfo.getMemberId());
 				MemberTransactions memberTransactions = new MemberTransactions();
 				memberTransactions.setTransactionId(rs.getInt("transactionid"));
 				memberTransactions.setBookId(rs.getString("bookid"));
@@ -47,8 +49,7 @@ public class MemberDetails {
 		return memberInfo;
 
 	}
-	
-	
+
 	public MemberInfo getMemberInfoWithFine(String memberId) {
 		final String sqlQuery = "SELECT u.*, t.* FROM user u, transactions t WHERE u.userid = ? AND u.userid = t.userid";
 		MemberInfo memberInfo = new MemberInfo();
@@ -62,28 +63,36 @@ public class MemberDetails {
 			ResultSet rs = stmt.executeQuery();
 
 			String userName = null;
+			float totalFineAmount = 0;
+
 			while (rs.next()) {
 				if (null == userName) {
-					memberInfo.setUserName(rs.getString("firstname"));
+					memberInfo.setUserName(rs.getString("firstname") + " " + rs.getString("last"));
+					memberInfo.setMemberId(rs.getInt("userid"));
 				}
+				System.out.println("Userid -> " + memberInfo.getMemberId());
+
 				MemberTransactions memberTransactions = new MemberTransactions();
 				memberTransactions.setTransactionId(rs.getInt("transactionid"));
 				memberTransactions.setBookId(rs.getString("bookid"));
 				memberTransactions.setBookName(rs.getString("bookname"));
-				
+
 				String dueDate = rs.getString("duedate");
 				Date returnDate = new SimpleDateFormat("yyyy-MM-dd").parse(dueDate);
 				Date currentDate = new Date();
-				
+
 				TimeUnit timeUnit = TimeUnit.DAYS;
 				long diff = getDateDiff(currentDate, returnDate, timeUnit);
 				long dueByDays = timeUnit.convert(diff, timeUnit);
-				
+
 				memberTransactions.setDueDate(dueDate);
 				memberTransactions.setDueByDays(dueByDays);
-				if (dueByDays < 0)
+				if (dueByDays < 0) {
+					memberTransactions.setDueByDays(-dueByDays);
 					memberTransactions.setFineAmount(-dueByDays * 1.00);
-
+					totalFineAmount += -dueByDays * 1.00;
+				}
+				memberInfo.setTotalFineAmount(totalFineAmount);
 				memberInfo.getMemberTransactions().add(memberTransactions);
 			}
 			System.out.println(memberInfo);
@@ -98,9 +107,8 @@ public class MemberDetails {
 	}
 
 	public static long getDateDiff(Date date1, Date date2, TimeUnit timeUnit) {
-	    long diffInMillies = date2.getTime() - date1.getTime();
-	    return timeUnit.convert(diffInMillies,TimeUnit.MILLISECONDS);
+		long diffInMillies = date2.getTime() - date1.getTime();
+		return timeUnit.convert(diffInMillies, TimeUnit.MILLISECONDS);
 	}
-	
-	
+
 }
