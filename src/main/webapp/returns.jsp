@@ -75,6 +75,7 @@
 		</div>
 		<ul class="nav navbar-nav navbar-right">
 			<li><a href="searchPage.jsp">Search</a></li>
+			<li><a href="issue.jsp">Search</a></li>
 			<li class="active"><a href="returns.jsp">Returns</a></li>
 			<li><a href="bookentry.jsp">Book Entry</a></li>
 			<li><a href="orderbooks.jsp">Order Books</a></li>
@@ -89,11 +90,11 @@
 			<div class="row">
 				<div class="col-sm-6 col-sm-offset-3">
 					<div id="imaginary_container">
-						<div class="input-group stylish-input-group">
+						<div class="input-group">
 							<input type="text" class="form-control"
 								placeholder="Search for Member Transactions" name="memberid">
 							<span class="input-group-addon">
-								<button type="submit">
+								<button class="btn btn-default" type="submit">
 									<span class="glyphicon glyphicon-search"></span>
 								</button>
 							</span>

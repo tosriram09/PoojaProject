@@ -28,6 +28,12 @@
 		<description></description>
 		<servlet-class>com.bookbank.servlet.AddBooksServlet</servlet-class>
 	</servlet>
+	<servlet>
+		<servlet-name>IssueBookServlet</servlet-name>
+		<display-name>IssueBookServlet</display-name>
+		<description></description>
+		<servlet-class>com.bookbank.servlet.IssueBookServlet</servlet-class>
+	</servlet>
 	<servlet-mapping>
 		<servlet-name>LoginServlet</servlet-name>
 		<url-pattern>/LoginServlet</url-pattern>
@@ -43,6 +49,10 @@
 	<servlet-mapping>
 		<servlet-name>AddBooksServlet</servlet-name>
 		<url-pattern>/AddBooksServlet</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>IssueBookServlet</servlet-name>
+		<url-pattern>/IssueBookServlet</url-pattern>
 	</servlet-mapping>
 	<welcome-file-list>
 		<welcome-file>login.jsp</welcome-file>

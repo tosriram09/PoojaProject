@@ -41,7 +41,8 @@ html, body {
 				<a class="navbar-brand" href="#">Students Book Bank</a>
 			</div>
 			<ul class="nav navbar-nav navbar-right">
-				<li class="active"><a href="#">Search</a></li>
+				<li class="active"><a href="#">Search</a>
+				<li><a href="issue.jsp">Issue</a></li>
 				<li><a href="returns.jsp">Returns</a></li>
 				<li><a href="bookentry.jsp">Book Entry</a></li>
 				<li><a href="orderbooks.jsp">Order Books</a></li>
