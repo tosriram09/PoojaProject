@@ -13,11 +13,10 @@
 <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <script src="bootstrap/js/jquery-3.2.1.min.js"></script>
 <script>
-	function submit1() {
+	function submit1(action) {
 		var checkboxes = document.getElementsByName('transaction');
 		var selectedTransactions = "";
 		var totalFineAmount = 0.0;
-
 		for (var i = 0, n = checkboxes.length; i < n; i++) {
 			if (checkboxes[i].checked) {
 				var checkboxValue = checkboxes[i].value;
@@ -26,21 +25,19 @@
 				totalFineAmount = totalFineAmount + parseInt(fields[3]);
 			}
 		}
+		document.getElementById("booksreturned").value = selectedTransactions;
+		document.getElementById("useraction").value = action;
+		document.getElementById("returnform").action = "ReturnsServlet";
 
 		if (totalFineAmount > 0) {
 			var retVal = confirm("Pls.collect a fine of Rs." + totalFineAmount
 					+ ". Click Ok to Proceed.");
-
 			if (retVal == true) {
-				document.getElementById("booksreturned").value = selectedTransactions;
-				document.getElementById("useraction").value = "return";
-				document.getElementById("returnform").action = "ReturnsServlet";
-				document.getElementById("returnform").submit();
 			} else {
 				return false;
 			}
 		}
-		return true;
+		document.getElementById("returnform").submit();
 	}
 </script>
 <title>Manage Book Returns</title>
@@ -63,6 +60,35 @@
 	border: 0;
 	background: transparent;
 }
+
+html, body {
+	height: 100%;
+	background: url('./images/bg.jpg') no-repeat center center fixed;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+}
+
+.table-striped>tbody>tr:nth-child(odd)>td, .table-striped>tbody>tr:nth-child(odd)>th
+	{
+	background-color: grey;
+	//
+	Choose
+	your
+	own
+	color
+	here
+}
+
+.bg-overlay {
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center center;
+	color: #fff;
+	height: 450px;
+	padding-top: 50px;
+}
 </style>
 
 </head>
@@ -75,7 +101,7 @@
 		</div>
 		<ul class="nav navbar-nav navbar-right">
 			<li><a href="searchPage.jsp">Search</a></li>
-			<li><a href="issue.jsp">Search</a></li>
+			<li><a href="issue.jsp">Issue</a></li>
 			<li class="active"><a href="returns.jsp">Returns</a></li>
 			<li><a href="bookentry.jsp">Book Entry</a></li>
 			<li><a href="orderbooks.jsp">Order Books</a></li>
@@ -86,7 +112,7 @@
 	<div class="container col-lg-12 spacer"></div>
 	<form class="form-horizontal" id="returnform" role="form" method="POST"
 		action="ReturnsServlet">
-		<div class="container">
+		<div class="container bg-overlay">
 			<div class="row">
 				<div class="col-sm-6 col-sm-offset-3">
 					<div id="imaginary_container">
@@ -105,7 +131,6 @@
 
 				<%
 					String message = (String) request.getAttribute("message");
-
 					if (null != message) {
 				%>
 				<div class="col-sm-6 col-sm-offset-3 alert alert-info"><%=request.getAttribute("message")%></div>
@@ -121,7 +146,6 @@
 					int memberId = 0;
 					if (memberInfo != null) {
 						transactions = memberInfo.getMemberTransactions();
-
 						if (transactions != null && transactions.size() == 0) {
 				%>
 
@@ -171,7 +195,11 @@
 					if (transactions != null && transactions.size() > 0) {
 				%>
 				<button type="button" class="btn btn-primary btn-sm"
-					onclick="submit1();">Return</button>
+					onclick="submit1('return');">Return</button>
+				
+				<button type="button" class="btn btn-primary btn-sm"
+					onclick="submit1('extend');">Extend</button>
+				
 				<%
 					}
 				%>

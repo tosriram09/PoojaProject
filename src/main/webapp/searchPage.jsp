@@ -9,14 +9,32 @@
 <style>
 html, body {
 	height: 100%;
+	background: url('./images/bg.jpg') no-repeat center center fixed;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
 }
 
 .container {
-	height: 90%;
+	height: 65%;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 }
+
+.bg-overlay {
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    color: #fff;
+    height: 450px;
+    padding-top: 50px;
+}
+.table-striped>tbody>tr:nth-child(odd)>td, 
+.table-striped>tbody>tr:nth-child(odd)>th {
+   background-color: grey; // Choose your own color here
+ }
 </style>
 <!-- Custom styles for this template -->
 <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -49,10 +67,9 @@ html, body {
 			</ul>
 		</div>
 	</nav>
-	<div class="container">
+	<div class="container bg-overlay">
 		<form class="form-horizontal" role="form" method="POST"
 			action="SearchServlet">
-
 			<div class="row">
 				<div class="col-xs-8 col-xs-offset-2">
 					<div class="input-group">
@@ -87,6 +104,8 @@ html, body {
 
 				if (memberInfo != null) {
 			%>
+			<p class="font-weight-normal">Displaying transaction details for member : <%=memberInfo.getUserName() %></p>
+			
 			<table id="example" class="table table-striped table-bordered"
 				cellspacing="0" width="100%">
 				<thead>

@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.bookbank.database.IssueBooks;
 import com.bookbank.database.MemberDetails;
 import com.bookbank.database.ReturnBooks;
 import com.bookbank.model.MemberInfo;
@@ -43,6 +44,18 @@ public class ReturnsServlet extends HttpServlet {
 			String returnedBooks = request.getParameter("booksreturned");
 			returnBooks.returnBooks(returnedBooks);
 			request.setAttribute("message", "Books returned successfully");
+
+			MemberDetails memberDetails = new MemberDetails();
+			memberId = request.getParameter("memberid1");
+			MemberInfo memberInfo = memberDetails.getMemberInfoWithFine(memberId);
+			request.setAttribute("memberInfo", memberInfo);
+			request.getRequestDispatcher("/returns.jsp").forward(request, response);
+		} else if (userAction.equals("extend")) {
+			String returnedBooks = request.getParameter("booksreturned");
+			ReturnBooks returnBooks = new ReturnBooks();
+			memberId = request.getParameter("memberid1");
+			returnBooks.extendBooks(Integer.parseInt(memberId), returnedBooks);
+			request.setAttribute("message", "Books renewed successfully");
 
 			MemberDetails memberDetails = new MemberDetails();
 			memberId = request.getParameter("memberid1");

@@ -21,52 +21,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 :not
 
 
@@ -74,53 +28,7 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -135,53 +43,7 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -203,52 +65,6 @@ margin-top
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 :
 
 
@@ -256,53 +72,7 @@ margin-top
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -323,59 +93,25 @@ px
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ;
 }
 .glyphicon {
 	font-size: 18px;
 }
-</style>
 
+html, body {
+	height: 100vh;
+	background: url('./images/bg.jpg') no-repeat center center fixed;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+}
+
+.text-white {
+color:white;
+}
+</style>
 <script>
 	$(function() {
 		$(document)
@@ -384,11 +120,9 @@ px
 						'.btn-add',
 						function(e) {
 							e.preventDefault();
-
 							var controlForm = $('.controls form:first'), currentEntry = $(
 									this).parents('.entry:first'), newEntry = $(
 									currentEntry.clone()).appendTo(controlForm);
-
 							newEntry.find('input').val('');
 							controlForm
 									.find('.entry:not(:last) .btn-add')
@@ -409,15 +143,13 @@ px
 
 <script>
 	$(function() {
-		$('#issuebooks').on('click', function() {
-			var booksids = "";
-			$('.form-control').each(function() {
-				alert($(this).val);
-				booksids = booksids + "," + $(this).val;
+		$('#addbook').on('click', function() {
+			var booksselected = "";
+			$("[name='fields[]']").each(function() {
+				booksselected = booksselected + "," + $(this).val();
 			});
-			alert(booksids);
-			document.getElementById("bookstoissue").value = booksids;
-			document.displayform.submit();
+			document.getElementById("bookstoissue").value = booksselected;
+			document.issueform.submit();
 		});
 	});
 </script>
@@ -431,39 +163,61 @@ px
 		</div>
 		<ul class="nav navbar-nav navbar-right">
 			<li><a href="searchPage.jsp">Search</a></li>
-			<li class="active"><a href="issue.jsp">Search</a></li>
+			<li class="active"><a href="issue.jsp">Issue</a></li>
 			<li><a href="returns.jsp">Returns</a></li>
 			<li><a href="bookentry.jsp">Book Entry</a></li>
 			<li><a href="orderbooks.jsp">Order Books</a></li>
 		</ul>
 	</div>
 	</nav>
+	<%
+		String message = (String) request.getAttribute("message");
+
+		if (null != message) {
+	%>
+	<div class="col-sm-8 col-sm-offset-1 alert alert-info"><%=request.getAttribute("message")%></div>
+	<%
+		}
+	%>
 	<div class="container">
+		<div class="col-xs-12" style="height: 50px;"></div>
 		<div class="row">
-			<div class="form-group">
-				<label class="col-sm-2 control-label">Member ID</label>
-				<div class="col-xs-3">
-					<input id="memberid" type="text" />
-				</div>
-			</div>
-			<div class="form-group" id="fields">
-				<label class="col-sm-2 control-label">Book ID</label>
+			<div class="control-group" id="fields">
 				<div class="controls">
-					<form role="form" autocomplete="off" name="displayform"
-						method="post">
-						<div class="entry input-group col-xs-3">
-							<input class="form-control" name="fields[]" type="text" /> <span
-								class="input-group-btn">
-								<button class="btn btn-success btn-add" type="button">
-									<span class="glyphicon glyphicon-plus"></span>
-								</button>
-							</span>
-						</div>
-						<button class="btn btn-primary" type="button" id="issuebooks">Issue
-							Books</button>
-						<input type="hidden" id="bookstoissue" name="bookstoissue"
-							value="" />
-					</form>
+						<form class="form-horizontal" role="form"
+							action="IssueBookServlet" method="POST" name="issueform">
+								<div class="form-group">
+									<label for="memberid" class="col-sm-2 control-label text-white"> Member
+										ID </label>
+
+									<div class="col-sm-3">
+										<input type="text" class="form-control" id="memberid"
+											name="memberid">
+									</div>
+								</div>
+
+								<div class="entry form-group">
+									<label for="fields[]" class="col-sm-2 control-label text-white">Book
+										Number</label>
+
+									<div class="col-sm-3 inline">
+										<input type="text" class="form-control" id="fields[]"
+											name="fields[]">
+									</div>
+									<button class="btn btn-success btn-add" type="button">
+										<span class="glyphicon glyphicon-plus"></span>
+									</button>
+								</div>
+								<input type="hidden" id="bookstoissue" name="bookstoissue"
+									value="" />
+						</form>
+					</div>
+					<div class="col-xs-12" style="height: 50px;"></div>
+
+					<div class="col-sm-offset-2 col-sm-3 text-left">
+						<button class="btn btn-success btn-primary" type="submit"
+							name="addbook" id="addbook">Issue Books</button>
+					</div>
 				</div>
 			</div>
 		</div>

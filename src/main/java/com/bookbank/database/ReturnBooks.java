@@ -4,10 +4,12 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import com.bookbank.model.BookInfo;
 import com.bookbank.model.MemberInfo;
 import com.bookbank.model.MemberTransactions;
 
@@ -83,4 +85,25 @@ public class ReturnBooks {
 		return memberTransactions;
 	}
 
+	public void extendBooks(int memberId, String books) {
+		final String updateQuery = "UPDATE transactions SET duedate = ? WHERE userid = ? AND bookid = ?";
+		Connection conn = getConnection();
+		List<MemberTransactions> memberTransactions = memberTransactions(books);
+		try {
+			for (MemberTransactions transaction : memberTransactions) {
+				PreparedStatement stmt = conn.prepareStatement(updateQuery);
+				LocalDate returnDate = LocalDate.now().plusDays(14);
+
+				stmt.setDate(1, java.sql.Date.valueOf(returnDate));
+				stmt.setInt(2, memberId);
+				stmt.setInt(3, Integer.parseInt(transaction.getBookId()));
+
+				stmt.executeUpdate();
+				stmt.close();
+				conn.close();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }

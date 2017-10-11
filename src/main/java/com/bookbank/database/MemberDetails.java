@@ -27,7 +27,7 @@ public class MemberDetails {
 			String userName = null;
 			while (rs.next()) {
 				if (null == userName) {
-					memberInfo.setUserName(rs.getString("firstname") + " " + rs.getString("last"));
+					memberInfo.setUserName(rs.getString("firstname") + " " + rs.getString("lastname"));
 					memberInfo.setMemberId(rs.getInt("userid"));
 				}
 				System.out.println("Userid -> " + memberInfo.getMemberId());
@@ -67,7 +67,7 @@ public class MemberDetails {
 
 			while (rs.next()) {
 				if (null == userName) {
-					memberInfo.setUserName(rs.getString("firstname") + " " + rs.getString("last"));
+					memberInfo.setUserName(rs.getString("firstname") + " " + rs.getString("lastname"));
 					memberInfo.setMemberId(rs.getInt("userid"));
 				}
 				System.out.println("Userid -> " + memberInfo.getMemberId());
