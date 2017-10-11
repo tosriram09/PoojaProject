@@ -29,9 +29,17 @@ public class AddBooksServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String bookName = request.getParameter("bookname");
 		BookInfo bookInfo = new BookInfo();
-		bookInfo.setTitle(bookName);
+
+		bookInfo.setAuthor(request.getParameter("author"));
+		bookInfo.setTitle(request.getParameter("title"));
+		bookInfo.setEdition(request.getParameter("edition"));
+		bookInfo.setPublication(request.getParameter("publication"));
+		bookInfo.setPrice(Double.parseDouble(request.getParameter("price")));
+		bookInfo.setPurchaseDate(request.getParameter("date"));
+		bookInfo.setReference(request.getParameter("reference"));
+		bookInfo.setIsAvailable(request.getParameter("available"));
+
 		BookDetails bookDetails = new BookDetails();
 		bookDetails.addBooks(bookInfo);
 		request.setAttribute("message", "Book Added Successfully");

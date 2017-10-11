@@ -9,8 +9,8 @@ public class BookInfo {
 	private double price;
 	private String isReference;
 	private String purchaseDate;
-	
-	
+	private String isAvailable;
+
 	public String getTitle() {
 		return title;
 	}
@@ -73,5 +73,13 @@ public class BookInfo {
 
 	public void setPurchaseDate(String purchaseDate) {
 		this.purchaseDate = purchaseDate;
+	}
+
+	public String getIsAvailable() {
+		return isAvailable;
+	}
+
+	public void setIsAvailable(String isAvailable) {
+		this.isAvailable = isAvailable;
 	}
 }

@@ -92,15 +92,15 @@ public class BookDetails {
 
 			PreparedStatement stmt = conn.prepareStatement(sqlQuery);
 			stmt.setInt(1, bookInfo.getBookNbr());
-			stmt.setString(2,  bookInfo.getAuthor());
-			stmt.setString(3,  bookInfo.getTitle());
-			stmt.setString(4,  bookInfo.getEdition());
-			stmt.setString(5,  bookInfo.getPublication());
-			stmt.setDouble(6,  bookInfo.getPrice());
-			stmt.setString(7,  bookInfo.getPurchaseDate());
-			stmt.setString(8,  bookInfo.isReference());
-			stmt.setString(9,  "Y");
-			
+			stmt.setString(2, bookInfo.getAuthor());
+			stmt.setString(3, bookInfo.getTitle());
+			stmt.setString(4, bookInfo.getEdition());
+			stmt.setString(5, bookInfo.getPublication());
+			stmt.setDouble(6, bookInfo.getPrice());
+			stmt.setString(7, bookInfo.getPurchaseDate());
+			stmt.setString(8, bookInfo.isReference());
+			stmt.setString(9, bookInfo.getIsAvailable());
+
 			stmt.executeUpdate();
 			stmt.close();
 			conn.close();
